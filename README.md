@@ -21,5 +21,10 @@ Game and Audio Design: Mohammed bin Saleh
 
 Cutscene Artist: Abdullah Alyahya
 
-<br>
+## Photos
 <a href="https://x.com/ftcksu/status/1883819581141106874"><img src="https://pbs.twimg.com/media/GiSr4pKWsAA63al?format=jpg&name=large"/></a>
+
+<img src="https://img.itch.zone/aW1hZ2UvMzI3MTM3NC8yNDM3ODY0MS5wbmc=/347x500/IdiOiQ.png"/>
+<img src="https://img.itch.zone/aW1hZ2UvMzI3MTM3NC8yNDM3ODYzOC5wbmc=/347x500/whyd0K.png"/>
+<img src="https://img.itch.zone/aW1hZ2UvMzI3MTM3NC8yNDM3ODYzNy5wbmc=/347x500/CNf2QR.png"/>
+<img src="https://img.itch.zone/aW1hZ2UvMzI3MTM3NC8yNDM3ODYzOS5wbmc=/347x500/JZz2UH.png"/>
