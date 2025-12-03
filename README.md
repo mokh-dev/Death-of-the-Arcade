@@ -1,6 +1,6 @@
 # Death of the Arcade
 
-A momentum based 2D action platformer with 2 levels. This was a game was made for the FTC Jam in which it won first place. A big thanks to the FTC Jam Team for hosting the event.
+A momentum based 2D action platformer with 2 levels. This was a game made for the FTC Jam in which it won first place. A big thanks to the FTC Jam Team for hosting the event.
 
 Play the game: https://themkdev.itch.io/death-of-the-arcade
 
