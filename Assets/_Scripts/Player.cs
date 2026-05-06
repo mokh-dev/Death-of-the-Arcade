@@ -180,9 +180,9 @@ public class Player : MonoBehaviour
 			anim.SetBool("IsRunning", true);
 		}
 
-		anim.SetFloat("YVelo", rb.velocity.y);
+		anim.SetFloat("YVelo", rb.linearVelocity.y);
 
-		if ((bool)Physics2D.OverlapCircle(groundCheckPos.position, groundedCheckSize, groundLayer) && rb.velocity.y <= 0.1f)
+		if ((bool)Physics2D.OverlapCircle(groundCheckPos.position, groundedCheckSize, groundLayer) && rb.linearVelocity.y <= 0.1f)
 		{
 			if (!isGrounded)
 			{
@@ -226,7 +226,7 @@ public class Player : MonoBehaviour
 				//immediate Jump
 				immediateJump = true;
 
-				rb.velocity = new Vector2(rb.velocity.x, 0f);
+				rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
 				rb.gravityScale = ogGrav;
 				rb.AddForce(jumpForce * Vector2.up, ForceMode2D.Impulse);
 
@@ -239,9 +239,9 @@ public class Player : MonoBehaviour
 		{
 			coyoteCounter = 0f;
 
-			if (rb.velocity.y > 0f)
+			if (rb.linearVelocity.y > 0f)
 			{
-				rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * jumpCut);
+				rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y * jumpCut);
 				rb.gravityScale = jumpGrav;
 			}
 		}
@@ -295,7 +295,7 @@ public class Player : MonoBehaviour
 			throwPos.SetActive(false);
 		}
 
-		speedUI.text = "Speed: " + Mathf.Abs(Mathf.RoundToInt(rb.velocity.x)).ToString();
+		speedUI.text = "Speed: " + Mathf.Abs(Mathf.RoundToInt(rb.linearVelocity.x)).ToString();
 		gainedUI.text = "Gained: " + speedGained.ToString();
 
 	}
@@ -313,7 +313,7 @@ public class Player : MonoBehaviour
 	private void FixedUpdate()
 	{
 		float num = (float)moveInput * (runSpeed + (enemySpeedIncrement * speedGained));
-		float f = num - rb.velocity.x;
+		float f = num - rb.linearVelocity.x;
 		float num2 = ((!(Mathf.Abs(num) > 0.01f)) ? decceleration : acceleration);
 		float num3 = Mathf.Pow(Mathf.Abs(f) * num2, velPower) * Mathf.Sign(f);
 		rb.AddForce(num3 * Vector2.right);
@@ -348,7 +348,7 @@ public class Player : MonoBehaviour
 		else if (collision.gameObject.CompareTag("Spring"))
 		{
 			rb.gravityScale = ogGrav;
-			rb.velocity = new Vector2(rb.velocity.x, 0);
+			rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0);
 			rb.AddForce(Vector2.up * springForce, ForceMode2D.Impulse);
 
 			jumpSound.Play();
