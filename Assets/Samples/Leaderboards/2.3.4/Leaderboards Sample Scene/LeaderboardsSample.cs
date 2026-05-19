@@ -8,6 +8,7 @@ using UnityEngine;
 
 public class LeaderboardsSample : MonoBehaviour
 {
+    //public static LeaderboardsSample Instance;
     const string LeaderboardId = "Level1_Leaderboard";
     string VersionId { get; set; }
     int Offset { get; set; }
@@ -15,7 +16,13 @@ public class LeaderboardsSample : MonoBehaviour
     int RangeLimit { get; set; }
     List<string> FriendIds { get; set; }
 
-    async void Awake()
+
+    private void Start()
+    {
+        Initialize();
+    }
+
+    async void Initialize()
     {
         await UnityServices.InitializeAsync();
 
@@ -37,10 +44,21 @@ public class LeaderboardsSample : MonoBehaviour
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
     }
 
-    public async void AddScore()
+    public async void AddScore(float time)
     {
-        var scoreResponse = await LeaderboardsService.Instance.AddPlayerScoreAsync(LeaderboardId, 102);
+        var scoreResponse = await LeaderboardsService.Instance.AddPlayerScoreAsync(LeaderboardId, time);
         Debug.Log(JsonConvert.SerializeObject(scoreResponse));
+    }
+
+    public async void AddScoreWithMetadata(string leaderboardId, float score, ScoreMetadata scoreMetadata)
+    {
+        var playerEntry = await LeaderboardsService.Instance
+            .AddPlayerScoreAsync(
+                leaderboardId,
+                score,
+                new AddPlayerScoreOptions { Metadata = scoreMetadata }
+            );
+        Debug.Log(JsonConvert.SerializeObject(playerEntry));
     }
 
     public async void GetScores()
@@ -117,3 +135,10 @@ public class LeaderboardsSample : MonoBehaviour
         Debug.Log(JsonConvert.SerializeObject(scoreResponse));
     }
 }
+
+
+public class ScoreMetadata
+{
+    public int DeathCount;
+}
+

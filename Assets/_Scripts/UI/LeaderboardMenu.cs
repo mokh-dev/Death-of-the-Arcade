@@ -5,12 +5,14 @@ using TMPro;
 using UnityEngine.UI;
 using Unity.Services.Leaderboards;
 
-public class LeaderboardMenu : MonoBehaviour
+public class LeaderboardMenu : LeaderboardsSample
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    const string LeaderboardId = "Level1_Leaderboard";
+    [SerializeField] private float testTimeTaken;
+    [SerializeField] private int testDeathCount;
+    public void AddTestScore()
     {
-        
+        AddScoreWithMetadata(LeaderboardId, testTimeTaken, new ScoreMetadata{DeathCount = testDeathCount});
     }
 
     // Update is called once per frame
