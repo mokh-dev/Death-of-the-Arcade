@@ -7,42 +7,44 @@ public class Enemy : MonoBehaviour
     [SerializeField] private GameObject bulletPre;
     [SerializeField] private GameObject deathParticles;
     [SerializeField] private float bulletSpeed;
-    [SerializeField] private float playerDistance;
+    [SerializeField] private float _playerDistance;
     [SerializeField] private float shootCooldown;
     [SerializeField] private float cameraShakeForce;
     [SerializeField] private bool enemyCanShoot;
+
+    private Player _player;
+
     void Start()
     {
         if (enemyCanShoot == true)
         {
-            StartCoroutine(ShootCooldown());
+            StartCoroutine(ShootLoop());
+        }
+
+        if (GameObject.FindFirstObjectByType<Player>() != null)
+        {
+            _player = GameObject.FindFirstObjectByType<Player>();
         }
     }
 
-    IEnumerator ShootCooldown()
+    IEnumerator ShootLoop()
     {
         
         Shoot();
 
         yield return new WaitForSeconds(shootCooldown);
 
-        StartCoroutine(ShootCooldown());
+        StartCoroutine(ShootLoop());
     }
 
     private void Shoot()
     {
-        if (GameObject.FindObjectOfType<Player>() != null)
+        if ( Vector2.Distance(transform.position, _player.gameObject.transform.position) < _playerDistance)
         {
-            if ( Vector2.Distance(transform.position, GameObject.FindObjectOfType<Player>().gameObject.transform.position) < playerDistance)
-            {
-                GameObject bullet = Instantiate(bulletPre, transform.position, Quaternion.identity);
+            GameObject bullet = Instantiate(bulletPre, transform.position, Quaternion.identity);
 
-                Vector3 playerPos = FindObjectOfType<Player>().transform.position;
-
-                Vector2 direction = playerPos - transform.position;
-
-                bullet.GetComponent<Rigidbody2D>().AddForce(bulletSpeed * direction.normalized, ForceMode2D.Impulse);
-            }
+            Vector2 direction = _player.transform.position - transform.position;
+            bullet.GetComponent<Rigidbody2D>().AddForce(bulletSpeed * direction.normalized, ForceMode2D.Impulse);
         }
     }
 
@@ -52,15 +54,14 @@ public class Enemy : MonoBehaviour
         {
             Instantiate(deathParticles, transform.position, Quaternion.identity);
 
-            if (FindObjectOfType<Player>() != null)
-            {
-                if (enemyCanShoot == false)
-                {
-                    FindObjectOfType<Player>().GetComponent<Player>().IncreaseSpeed();
-                }
 
-                FindObjectOfType<Player>().GetComponent<Player>().CameraShake(cameraShakeForce);
+            if (enemyCanShoot == false)
+            {
+                _player.IncreaseSpeed();
             }
+
+            _player.CameraShake(cameraShakeForce);
+            
 
             GameObject.FindGameObjectWithTag("DeathSound").GetComponent<AudioSource>().Play();
             Destroy(gameObject);
