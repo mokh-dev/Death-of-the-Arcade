@@ -6,7 +6,7 @@ using System;
 using System.Collections;
 using Unity.Collections;
 
-public class LevelController : MonoBehaviour
+public class LevelController : Singleton<LevelController>
 {
 
     [SerializeField] private TextMeshProUGUI speedrunTimerUI;
@@ -14,22 +14,13 @@ public class LevelController : MonoBehaviour
     [SerializeField] private float transitionTime = 1f;
     public static float SpeedrunTimer;
 
-    void Awake()
-    {
-        /*LevelController[] levelControllers = FindObjectsOfType<LevelController>();
-        if (levelControllers.Length > 1)
-        {
-            Destroy(gameObject);
-        }
-        DontDestroyOnLoad(gameObject);*/
 
-
-    }
     void Start()
     {
         fadeAnim.gameObject.SetActive(true);
         fadeAnim.transform.parent.GetChild(0).gameObject.SetActive(true);
     }
+    
 
     void Update()
     {

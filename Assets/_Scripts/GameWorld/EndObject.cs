@@ -10,8 +10,8 @@ public class EndObject : MonoBehaviour
         if (collision.gameObject.CompareTag("Sword"))
         {
             Instantiate(deathParticles, transform.position, Quaternion.identity);
-            FindObjectOfType<LevelController>().GetComponent<LevelController>().NextLevel();
-            FindObjectOfType<Player>().GetComponent<Player>().CameraShake(cameraCPUShake);
+            LevelController.Instance.NextLevel();
+            FindAnyObjectByType<Player>().GetComponent<Player>().CameraShake(cameraCPUShake);
 
             GameObject.FindGameObjectWithTag("DeathSound").GetComponent<AudioSource>().Play();
             Destroy(collision.gameObject);

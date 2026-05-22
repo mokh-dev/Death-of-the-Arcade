@@ -223,7 +223,6 @@ public class Player : MonoBehaviour
 
 			if (inputBufferCounter == inputBufferTime)
 			{
-				//immediate Jump
 				immediateJump = true;
 
 				rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
@@ -324,26 +323,13 @@ public class Player : MonoBehaviour
 	{
 		if (collision.gameObject.CompareTag("Bullet"))
 		{	
-			Instantiate(deathParticles, transform.position, Quaternion.identity);
-
-			CameraShake(cameraShakePlayerForce);
 			Destroy(collision.gameObject);
-			FindObjectOfType<LevelController>().GetComponent<LevelController>().ReloadLevel();
-
-			GameObject.FindGameObjectWithTag("DeathSound").GetComponent<AudioSource>().Play();
-
-			Destroy(gameObject);
+			
+			PlayerDeath();
 		}
 		else if (collision.gameObject.CompareTag("Enemy"))
 		{	
-			Instantiate(deathParticles, transform.position, Quaternion.identity);
-
-			CameraShake(cameraShakePlayerForce);
-			FindObjectOfType<LevelController>().GetComponent<LevelController>().ReloadLevel();
-
-			GameObject.FindGameObjectWithTag("DeathSound").GetComponent<AudioSource>().Play();
-
-			Destroy(gameObject);
+			PlayerDeath();
 		}
 		else if (collision.gameObject.CompareTag("Spring"))
 		{
@@ -353,6 +339,18 @@ public class Player : MonoBehaviour
 
 			jumpSound.Play();
 		}
+	}
+
+	private void PlayerDeath()
+	{
+		Instantiate(deathParticles, transform.position, Quaternion.identity);
+
+		CameraShake(cameraShakePlayerForce);
+		LevelController.Instance.ReloadLevel();
+
+		GameObject.FindGameObjectWithTag("DeathSound").GetComponent<AudioSource>().Play();
+
+		Destroy(gameObject);
 	}
 
 

@@ -12,7 +12,7 @@ using System;
 
 
 
-public class LeaderboardMenu : LeaderboardsSample
+public class LeaderboardMenu : MonoBehaviour
 {
     const string LeaderboardId = "Level1_Leaderboard";
 
@@ -69,4 +69,35 @@ public class LeaderboardMenu : LeaderboardsSample
             item.Initialize(entry);
         }
     }
+
+    private async Task SignInAnonymously()
+    {
+        AuthenticationService.Instance.SignedIn += () =>
+        {
+            Debug.Log("Signed in as: " + AuthenticationService.Instance.PlayerId);
+        };
+        AuthenticationService.Instance.SignInFailed += s =>
+        {
+            // Take some action here...
+            Debug.Log(s);
+        };
+
+        await AuthenticationService.Instance.SignInAnonymouslyAsync();
+    }
+
+    private async Task AddScoreWithMetadata(string leaderboardId, float score, ScoreMetadata scoreMetadata)
+    {
+        var playerEntry = await LeaderboardsService.Instance
+            .AddPlayerScoreAsync(
+                leaderboardId,
+                score,
+                new AddPlayerScoreOptions { Metadata = scoreMetadata }
+            );
+        Debug.Log(JsonConvert.SerializeObject(playerEntry));
+    }
+}
+
+public class ScoreMetadata
+{
+    public int DeathCount;
 }
